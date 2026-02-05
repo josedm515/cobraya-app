@@ -1,0 +1,278 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 2.5em;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 1.1em;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 600;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: transform 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.clientes-list {
+  margin-top: 30px;
+}
+
+.cliente-card {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 4px solid #667eea;
+  transition: transform 0.2s;
+}
+
+.cliente-card:hover {
+  transform: translateX(5px);
+}
+
+.cliente-card h3 {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.cliente-card p {
+  color: #666;
+  margin: 3px 0;
+  font-size: 0.9em;
+}
+
+.btn-enviar {
+  background: #25D366;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-enviar:hover {
+  background: #1fb855;
+}
+
+.btn-eliminar {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-eliminar:hover {
+  background: #c82333;
+}
+
+.mensaje-preview {
+  background: #e7f3ff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  border-left: 4px solid #2196F3;
+}
+
+.mensaje-preview h4 {
+  color: #2196F3;
+  margin-bottom: 8px;
+}
+
+.mensaje-preview pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: inherit;
+  margin: 0;
+}
+
+.variables {
+  background: #fff3cd;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #856404;
+}
+
+.alerta {
+  background: #d4edda;
+  color: #155724;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 4px solid #28a745;
+}
+
+.badge-enviados {
+  display: inline-block;
+  background: #ff6b6b;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.historial {
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.historial-item {
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.85em;
+  color: #666;
+}
+
+.historial-item:last-child {
+  border-bottom: none;
+}
+
+.toggle-historial {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #495057;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85em;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+
+.toggle-historial:hover {
+  background: #e9ecef;
+}
+
+.estado-pagado {
+  background: #d4edda;
+  border-left-color: #28a745;
+  opacity: 0.7;
+}
+
+.btn-marcar-pagado {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-marcar-pagado:hover {
+  background: #218838;
+}
+
+.tag-pagado {
+  background: #28a745;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 1.8em;
+  }
+  
+  .btn-eliminar,
+  .btn-marcar-pagado {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
