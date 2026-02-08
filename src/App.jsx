@@ -218,7 +218,7 @@ function App() {
             </div>
           </div>
           
-          <div className="metrica-card alerta-roja">
+          <div className="metrica-card">
             <div className="metrica-icon">⚠️</div>
             <div className="metrica-info">
               <div className="metrica-numero">
@@ -231,18 +231,6 @@ function App() {
               </div>
               <div className="metrica-label">Cobros Vencidos</div>
             </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Estadística motivacional */}
-      {clientes.filter(c => !c.pagado).length > 0 && (
-        <div className="stats-motivacional">
-          <div className="stats-icon">📉</div>
-          <div className="stats-texto">
-            <strong>¿Sabías que el 35% de pagos se retrasan por falta de recordatorios?</strong>
-            <br />
-            No pierdas dinero por olvido. Envía recordatorios ahora y cobra más rápido.
           </div>
         </div>
       )}

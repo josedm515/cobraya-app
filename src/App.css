@@ -206,11 +206,6 @@ textarea {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-.metrica-card.alerta-roja {
-  background: linear-gradient(135deg, #ffe5e5 0%, #ffd1d1 100%);
-  border: 2px solid #ff6b6b;
-}
-
 .metrica-icon {
   font-size: 2.5em;
   line-height: 1;
@@ -221,10 +216,11 @@ textarea {
 }
 
 .metrica-numero {
-  font-size: 1.8em;
+  font-size: 1.6em;
   font-weight: 700;
   color: #333;
   line-height: 1.2;
+  word-break: break-all;
 }
 
 .metrica-label {
@@ -232,46 +228,6 @@ textarea {
   color: #666;
   margin-top: 4px;
   font-weight: 500;
-}
-
-/* Estadística Motivacional */
-.stats-motivacional {
-  background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
-  border: 2px solid #ffc107;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 25px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  box-shadow: 0 3px 10px rgba(255, 193, 7, 0.2);
-}
-
-.stats-icon {
-  font-size: 2.5em;
-  line-height: 1;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
-.stats-texto {
-  color: #856404;
-  font-size: 0.95em;
-  line-height: 1.5;
-}
-
-.stats-texto strong {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 1.05em;
 }
 
 .badge-enviados {
@@ -371,7 +327,8 @@ textarea {
   }
   
   .metrica-numero {
-    font-size: 1.5em;
+    font-size: 1.4em;
+    word-break: break-word;
   }
   
   .stats-motivacional {
