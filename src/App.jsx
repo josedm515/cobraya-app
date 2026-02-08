@@ -191,6 +191,62 @@ function App() {
       <h1>💰 CobraYa</h1>
       <p className="subtitle">Gestiona tus recordatorios de cobro por WhatsApp</p>
       
+      {/* Dashboard de Métricas */}
+      {clientes.filter(c => !c.pagado).length > 0 && (
+        <div className="dashboard">
+          <div className="metrica-card">
+            <div className="metrica-icon">👥</div>
+            <div className="metrica-info">
+              <div className="metrica-numero">{clientes.filter(c => !c.pagado).length}</div>
+              <div className="metrica-label">Clientes Pendientes</div>
+            </div>
+          </div>
+          
+          <div className="metrica-card">
+            <div className="metrica-icon">💵</div>
+            <div className="metrica-info">
+              <div className="metrica-numero">
+                ${clientes
+                  .filter(c => !c.pagado)
+                  .reduce((total, c) => {
+                    const monto = c.monto.replace(/[^0-9]/g, '');
+                    return total + (parseInt(monto) || 0);
+                  }, 0)
+                  .toLocaleString('es-CO')}
+              </div>
+              <div className="metrica-label">Total Sin Cobrar</div>
+            </div>
+          </div>
+          
+          <div className="metrica-card alerta-roja">
+            <div className="metrica-icon">⚠️</div>
+            <div className="metrica-info">
+              <div className="metrica-numero">
+                {clientes.filter(c => {
+                  if (c.pagado || !c.fecha) return false;
+                  const fechaVencimiento = new Date(c.fecha);
+                  const hoy = new Date();
+                  return fechaVencimiento < hoy;
+                }).length}
+              </div>
+              <div className="metrica-label">Cobros Vencidos</div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Estadística motivacional */}
+      {clientes.filter(c => !c.pagado).length > 0 && (
+        <div className="stats-motivacional">
+          <div className="stats-icon">📉</div>
+          <div className="stats-texto">
+            <strong>¿Sabías que el 35% de pagos se retrasan por falta de recordatorios?</strong>
+            <br />
+            No pierdas dinero por olvido. Envía recordatorios ahora y cobra más rápido.
+          </div>
+        </div>
+      )}
+      
       <div className="alerta">
         ℹ️ Tip: Usa las variables {'{nombre}'}, {'{monto}'}, {'{fecha}'}, {'{concepto}'} en tu mensaje y se reemplazarán automáticamente
       </div>
@@ -370,4 +426,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
