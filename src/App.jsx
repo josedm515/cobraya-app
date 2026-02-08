@@ -3,11 +3,29 @@ import './App.css'
 
 // Plantillas de mensajes predefinidas
 const plantillas = {
-  cortés: "Hola {nombre}! 👋\n\nEspero que estés muy bien. Te escribo para recordarte que tenemos pendiente el pago de {monto} por {concepto}.\n\nLa fecha acordada es {fecha}. ¿Podrías confirmarme cuándo podrías realizar el pago?\n\n¡Gracias! 😊",
+  cortés: `Hola {nombre}! 👋
+
+Espero que estés muy bien. Te escribo para recordarte que tenemos pendiente el pago de {monto} por {concepto}.
+
+La fecha acordada es {fecha}. ¿Podrías confirmarme cuándo podrías realizar el pago?
+
+¡Gracias! 😊`,
   
-  recordatorio: "Hola {nombre}! 🙂\n\nTe recuerdo amablemente que el pago de {monto} por {concepto} vence el {fecha}.\n\n¿Necesitas alguna información adicional para procesar el pago?\n\nQuedo atento. ¡Saludos!",
+  recordatorio: `Hola {nombre}! 🙂
+
+Te recuerdo amablemente que el pago de {monto} por {concepto} vence el {fecha}.
+
+¿Necesitas alguna información adicional para procesar el pago?
+
+Quedo atento. ¡Saludos!`,
   
-  urgente: "Hola {nombre},\n\nNoto que el pago de {monto} por {concepto} venció el {fecha} y aún no lo he recibido.\n\n¿Hay algún inconveniente? Me gustaría resolverlo lo antes posible.\n\nQuedo pendiente de tu respuesta. Gracias."
+  urgente: `Hola {nombre},
+
+Noto que el pago de {monto} por {concepto} venció el {fecha} y aún no lo he recibido.
+
+¿Hay algún inconveniente? Me gustaría resolverlo lo antes posible.
+
+Quedo pendiente de tu respuesta. Gracias.`
 };
 
 function App() {
@@ -179,19 +197,6 @@ function App() {
 
       <form onSubmit={agregarCliente}>
         <div className="form-group">
-          <label htmlFor="plantilla">📝 Plantilla de Mensaje</label>
-          <select 
-            id="plantilla" 
-            value={plantillaSeleccionada}
-            onChange={(e) => handlePlantillaChange(e.target.value)}
-          >
-            <option value="cortés">Cortés y Amable</option>
-            <option value="recordatorio">Recordatorio Estándar</option>
-            <option value="urgente">Urgente (Vencido)</option>
-          </select>
-        </div>
-
-        <div className="form-group">
           <label htmlFor="telefono">📱 Teléfono (con código de país, ej: 573001234567)</label>
           <input 
             type="tel" 
@@ -243,6 +248,19 @@ function App() {
             onChange={(e) => setConcepto(e.target.value)}
             placeholder="Servicio de consultoría" 
           />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="plantilla">📝 Plantilla de Mensaje</label>
+          <select 
+            id="plantilla" 
+            value={plantillaSeleccionada}
+            onChange={(e) => handlePlantillaChange(e.target.value)}
+          >
+            <option value="cortés">Cortés y Amable</option>
+            <option value="recordatorio">Recordatorio Estándar</option>
+            <option value="urgente">Urgente (Vencido)</option>
+          </select>
         </div>
 
         <div className="form-group">
@@ -352,4 +370,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
