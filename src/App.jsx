@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { supabase } from './supabaseClient'
 import './App.css'
 
 // Plantillas de mensajes predefinidas
@@ -40,32 +41,35 @@ function App() {
   
   // Estado de clientes
   const [clientes, setClientes] = useState([]);
+  const [cargando, setCargando] = useState(true);
   
   // Estados para historial expandido
   const [historialExpandido, setHistorialExpandido] = useState({});
 
-  // Cargar clientes del localStorage al iniciar
+  // Cargar clientes de Supabase al iniciar
   useEffect(() => {
-    const clientesGuardados = localStorage.getItem('clientes');
-    if (clientesGuardados) {
-      const clientesParsed = JSON.parse(clientesGuardados);
-      // Migrar clientes antiguos si no tienen los campos nuevos
-      const clientesMigrados = clientesParsed.map(c => ({
-        ...c,
-        enviados: c.enviados || 0,
-        historial: c.historial || [],
-        pagado: c.pagado || false
-      }));
-      setClientes(clientesMigrados);
-    }
+    cargarClientes();
   }, []);
 
-  // Guardar clientes en localStorage cuando cambien
-  useEffect(() => {
-    if (clientes.length > 0) {
-      localStorage.setItem('clientes', JSON.stringify(clientes));
+  // Función para cargar clientes desde Supabase
+  const cargarClientes = async () => {
+    try {
+      setCargando(true);
+      const { data, error } = await supabase
+        .from('clientes')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      
+      setClientes(data || []);
+    } catch (error) {
+      console.error('Error cargando clientes:', error);
+      alert('Error al cargar los clientes. Verifica la conexión a Supabase.');
+    } finally {
+      setCargando(false);
     }
-  }, [clientes]);
+  };
 
   // Actualizar mensaje cuando cambia la plantilla
   const handlePlantillaChange = (nuevaPlantilla) => {
@@ -83,7 +87,7 @@ function App() {
   };
 
   // Agregar nuevo cliente
-  const agregarCliente = (e) => {
+  const agregarCliente = async (e) => {
     e.preventDefault();
     
     if (!telefono || !nombre || !monto) {
@@ -92,7 +96,6 @@ function App() {
     }
     
     const nuevoCliente = {
-      id: Date.now(),
       telefono,
       nombre,
       monto,
@@ -104,19 +107,32 @@ function App() {
       pagado: false
     };
     
-    setClientes([...clientes, nuevoCliente]);
-    
-    // Limpiar formulario
-    setTelefono('');
-    setNombre('');
-    setMonto('');
-    setFecha('');
-    setConcepto('');
-    setMensaje(plantillas[plantillaSeleccionada]);
+    try {
+      const { data, error } = await supabase
+        .from('clientes')
+        .insert([nuevoCliente])
+        .select();
+      
+      if (error) throw error;
+      
+      // Actualizar lista local
+      setClientes([data[0], ...clientes]);
+      
+      // Limpiar formulario
+      setTelefono('');
+      setNombre('');
+      setMonto('');
+      setFecha('');
+      setConcepto('');
+      setMensaje(plantillas[plantillaSeleccionada]);
+    } catch (error) {
+      console.error('Error agregando cliente:', error);
+      alert('Error al agregar el cliente. Intenta de nuevo.');
+    }
   };
 
   // Enviar mensaje por WhatsApp
-  const enviarWhatsApp = (id) => {
+  const enviarWhatsApp = async (id) => {
     const cliente = clientes.find(c => c.id === id);
     if (!cliente) return;
     
@@ -134,48 +150,98 @@ function App() {
     const fecha = ahora.toLocaleDateString('es-ES');
     const hora = ahora.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
     
-    const clientesActualizados = clientes.map(c => {
-      if (c.id === id) {
-        return {
-          ...c,
-          enviados: c.enviados + 1,
-          historial: [
-            { fecha, hora, timestamp: ahora.getTime() },
-            ...c.historial
-          ]
-        };
-      }
-      return c;
-    });
+    const nuevoHistorial = [
+      { fecha, hora, timestamp: ahora.getTime() },
+      ...(cliente.historial || [])
+    ];
     
-    setClientes(clientesActualizados);
-    
-    // Abrir WhatsApp
-    window.open(url, '_blank');
+    try {
+      const { error } = await supabase
+        .from('clientes')
+        .update({
+          enviados: cliente.enviados + 1,
+          historial: nuevoHistorial
+        })
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      // Actualizar estado local
+      setClientes(clientes.map(c => {
+        if (c.id === id) {
+          return {
+            ...c,
+            enviados: c.enviados + 1,
+            historial: nuevoHistorial
+          };
+        }
+        return c;
+      }));
+      
+      // Abrir WhatsApp
+      window.open(url, '_blank');
+    } catch (error) {
+      console.error('Error registrando envío:', error);
+      // Abrir WhatsApp aunque falle el registro
+      window.open(url, '_blank');
+    }
   };
 
   // Eliminar cliente
-  const eliminarCliente = (id) => {
-    if (confirm('¿Seguro que quieres eliminar este cliente?')) {
+  const eliminarCliente = async (id) => {
+    if (!confirm('¿Seguro que quieres eliminar este cliente?')) return;
+    
+    try {
+      const { error } = await supabase
+        .from('clientes')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      
       setClientes(clientes.filter(c => c.id !== id));
-      if (clientes.filter(c => c.id !== id).length === 0) {
-        localStorage.removeItem('clientes');
-      }
+    } catch (error) {
+      console.error('Error eliminando cliente:', error);
+      alert('Error al eliminar el cliente. Intenta de nuevo.');
     }
   };
 
   // Marcar como pagado
-  const marcarPagado = (id) => {
-    setClientes(clientes.map(c => 
-      c.id === id ? { ...c, pagado: true } : c
-    ));
+  const marcarPagado = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('clientes')
+        .update({ pagado: true })
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      setClientes(clientes.map(c => 
+        c.id === id ? { ...c, pagado: true } : c
+      ));
+    } catch (error) {
+      console.error('Error marcando como pagado:', error);
+      alert('Error al actualizar. Intenta de nuevo.');
+    }
   };
 
   // Desmarcar pagado
-  const desmarcarPagado = (id) => {
-    setClientes(clientes.map(c => 
-      c.id === id ? { ...c, pagado: false } : c
-    ));
+  const desmarcarPagado = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('clientes')
+        .update({ pagado: false })
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      setClientes(clientes.map(c => 
+        c.id === id ? { ...c, pagado: false } : c
+      ));
+    } catch (error) {
+      console.error('Error desmarcando pagado:', error);
+      alert('Error al actualizar. Intenta de nuevo.');
+    }
   };
 
   // Toggle historial
@@ -185,6 +251,18 @@ function App() {
       [id]: !prev[id]
     }));
   };
+
+  if (cargando) {
+    return (
+      <div className="container">
+        <h1>💰 CobraYa</h1>
+        <p className="subtitle">Cargando datos...</p>
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          <div style={{ fontSize: '3em' }}>⏳</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
