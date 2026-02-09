@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './supabaseClient'
+import Landing from './Landing'
 import './App.css'
 
 // Plantillas de mensajes predefinidas
@@ -30,6 +31,9 @@ Quedo pendiente de tu respuesta. Gracias.`
 };
 
 function App() {
+  // Estado para mostrar/ocultar landing
+  const [mostrarApp, setMostrarApp] = useState(false);
+  
   // Estados del formulario
   const [plantillaSeleccionada, setPlantillaSeleccionada] = useState('cortés');
   const [telefono, setTelefono] = useState('');
@@ -262,6 +266,11 @@ function App() {
         </div>
       </div>
     );
+  }
+
+  // Mostrar Landing Page primero
+  if (!mostrarApp) {
+    return <Landing onIniciar={() => setMostrarApp(true)} />;
   }
 
   return (
