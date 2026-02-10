@@ -259,7 +259,7 @@ function App() {
   if (cargando) {
     return (
       <div className="container">
-        <h1>💰 CobraYa</h1>
+        <h1>💰 CobraMatic</h1>
         <p className="subtitle">Cargando datos...</p>
         <div style={{ textAlign: 'center', padding: '40px' }}>
           <div style={{ fontSize: '3em' }}>⏳</div>
@@ -275,7 +275,7 @@ function App() {
 
   return (
     <div className="container">
-      <h1>💰 CobraYa</h1>
+      <h1>💰 CobraMatic</h1>
       <p className="subtitle">Gestiona tus recordatorios de cobro por WhatsApp</p>
       
       {/* Dashboard de Métricas */}

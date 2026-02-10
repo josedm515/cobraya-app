@@ -12,7 +12,7 @@ function Landing({ onIniciar }) {
             Cobra más rápido con <span className="gradient-text">recordatorios automáticos</span> por WhatsApp
           </h1>
           <p className="hero-subtitle">
-            Deja de perseguir a tus clientes. CobraYa te ayuda a gestionar cobros pendientes y enviar recordatorios profesionales en segundos.
+            Deja de perseguir a tus clientes. CobraMatic te ayuda a gestionar cobros pendientes y enviar recordatorios profesionales en segundos.
           </p>
           
           <div className="hero-cta">
@@ -51,7 +51,7 @@ function Landing({ onIniciar }) {
                 <span></span>
                 <span></span>
               </div>
-              <div className="preview-title">CobraYa Dashboard</div>
+              <div className="preview-title">CobraMatic Dashboard</div>
             </div>
             <div className="preview-body">
               <div className="preview-metric">
@@ -176,7 +176,7 @@ function Landing({ onIniciar }) {
 
       {/* Footer */}
       <footer className="footer">
-        <p>CobraYa © 2026 · Gestiona tus cobros de forma inteligente</p>
+        <p>CobraMatic © 2026 · Gestiona tus cobros de forma inteligente</p>
       </footer>
     </div>
   );
