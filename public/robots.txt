@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cobraya-app.vercel.app/sitemap.xml
+Sitemap: https://cobramatic-app.vercel.app/sitemap.xml
