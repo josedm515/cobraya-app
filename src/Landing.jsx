@@ -28,8 +28,8 @@ function Landing({ onIniciar }) {
           {/* Social Proof */}
           <div className="social-proof">
             <div className="proof-item">
-              <div className="proof-number">35%</div>
-              <div className="proof-text">menos morosidad</div>
+              <div className="proof-number">⚡</div>
+              <div className="proof-text">cobros más rápidos</div>
             </div>
             <div className="proof-item">
               <div className="proof-number">2x</div>
